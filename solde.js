@@ -8,10 +8,11 @@ console.log("\n");
 console.log("1)Consultation du solde\n");
 console.log("2)Retrait d'argent\n");
 console.log("3)Faire un dépot d'argent\n");
-console.log("4)Quitter le programme\n");
+console.log("4)gerer votre dépenses\n");
+console.log("5)Quitter le programme\n");
 console.log("---------------------------------------------------\n");
 const prompt=require("prompt-sync")();
-let choix=parseInt(prompt("Votre choix(1 ou 2 ou 3 ou 4)? ")); 
+let choix=parseInt(prompt("Votre choix(1 ou 2 ou 3 ou 4 ou 5)? ")); 
 switch(choix)
 {
     case 1:
@@ -58,14 +59,51 @@ switch(choix)
                 break;  //On stoppe la boucle externe
             }
         }  
-        break     
+        break 
     case 4:
+        let depenseActif=true;
+        let depense=0;
+        let tab=[];  //variable permettant de stocker les dépenses ajoutées par l'user
+        while(depenseActif)  
+            {
+                depense=parseInt(prompt("La valeur de votre dépense? "));
+                tab.push(depense);
+                console.log("//////////////////////////////////////////////////////\n");
+                console.log("Voulez-vous enregistrer encore votre dépense?\n");
+                console.log("//////////////////////////////////////////////////////\n");
+                let reponse=prompt("Choix oui ou non:  (non juste pour consulter la dépense moins chère anis que la moyenne) ");
+                if(reponse=="oui")
+                {
+                    //tab.push(depense); //les dépenses seront ajoutés dans le tableau à mesure que l'user continue de répondre oui
+                    //On ne rajoute pas avec tab.push(depense) si  la reponse est oui mais on va continuer la boucle
+                    continue;
+                }
+                else if(reponse=="non")
+                {
+                    let minimum=tab[0];
+                    for(let i=1; i<tab.length; i++){
+                        if(tab[i]<minimum)
+                        {
+                            minimum=tab[i];
+                        }
+                    }
+                    console.log("La dépense la moins chère est: "+ minimum+ "Ar");
+                    let somme=0;
+                    for(let j=0; j<tab.length; j++){
+                        somme+=tab[j];
+                    }
+                    let moyenne=somme/tab.length;
+                    depenseActif=false;
+                    break;
+                }
+            }   
+            break   
+    case 5:
         console.log("Merci d'avoir utilisé le programme,Au revoir!!!");
         actif=false;  //Cela signifie que la boucle est stoppée
         break
     default:
         console.log("Vous devez choisir entre 1/2 ou 3");
     break    
-        
     }
 }
